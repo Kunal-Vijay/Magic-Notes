@@ -1,6 +1,7 @@
 console.log("welcome to notes app");
 
 //calling show notes to show previous notes stored in local storage 
+showNotes();
 
 //Add Note button clicked
 let addBtn = document.getElementById('addBtn');
