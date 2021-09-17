@@ -7,6 +7,7 @@ showNotes();
 let addBtn = document.getElementById('addBtn');
 addBtn.addEventListener("click", function (e) {
     let addTxt = document.getElementById('addTxt');
+    let addTitle = document.getElementById('title');
     let notes = localStorage.getItem("notes");
     //parsing notes from Text area | 1 note = 1 element of array
     if (notes == null) {
@@ -14,12 +15,21 @@ addBtn.addEventListener("click", function (e) {
     } else {
         notesObj = JSON.parse(notes);
     }
+    let noteObject = {
+        title: addTitle.value,
+        text: addTxt.value
+    }
+
     //pushing note in notes obj array
-    notesObj.push(addTxt.value);
+    // direct pushing an object will take blank value for title and text and store it in array. So we have to apply condition to check whether they are blank or not
+    if (noteObject.title.length!=0 && noteObject.text.length!=0) {
+        notesObj.push(noteObject);
+    }
     //assign local storage to the note 
     localStorage.setItem("notes", JSON.stringify(notesObj));
     //clearing Text area after the note is added 
     addTxt.value = "";
+    addTitle.value = "";
     // console.log(notesObj);
     showNotes();
 });
@@ -40,8 +50,8 @@ function showNotes() {
         html += `
         <div class="noteCard my-2 mx-2 card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Note ${index + 1}</h5>
-                <p class="card-text"> ${element}</p>
+                <h5 class="card-title">${index+1}. ${element.title}</h5>
+                <p class="card-text"> ${element.text}</p>
                 <button id="${index}"onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
             </div>
         </div>`;
